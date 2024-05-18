@@ -12,7 +12,7 @@ public class UserService {
     private UserRepository repository;
 
     public UserBudgetResponse getUserBudget(Integer userId) {
-        User user = repository.findById(userId).orElseThrow(() -> new RuntimeException("No user find"));
+        User user = repository.findById(userId).orElseThrow(() -> new RuntimeException("No user found"));
         return new UserBudgetResponse(user.getBudget());
     }
 }
