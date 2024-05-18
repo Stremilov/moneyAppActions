@@ -11,8 +11,12 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserBudgetResponse getUserBudget(Integer userId) {
+    public UserBudgetResponse getUserBudget(String userId) {
         User user = repository.findById(userId).orElseThrow(() -> new RuntimeException("No user found"));
         return new UserBudgetResponse(user.getBudget());
+    }
+
+    public void createNewUser(User requestBody) {
+        repository.save(requestBody);
     }
 }
