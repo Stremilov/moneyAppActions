@@ -8,7 +8,9 @@ WORKDIR /app
 VOLUME /tmp
 
 # Определяем аргумент для JAR файла
-ARG JAR_FILE=build/libs/*.jar
+#ARG JAR_FILE=build/libs/*.jar
+
+ARG JAR_FILE
 
 # Копируем JAR файл в образ
 COPY ${JAR_FILE} app.jar
