@@ -14,16 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PAT }}
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/my-spring-boot-app:latest .
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/my-spring-boot-app:latest
+          docker build -t ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest .
+          docker push ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -33,8 +33,8 @@ jobs:
       - name: Deploy to production server
         run: |
           ssh your_user@your_server << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-spring-boot-app:latest
+            docker pull ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
             docker stop my-spring-boot-app || true
             docker rm my-spring-boot-app || true
-            docker run -d --name my-spring-boot-app -p 80:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/my-spring-boot-app:latest
+            docker run -d --name my-spring-boot-app -p 80:8080 ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
           EOF
