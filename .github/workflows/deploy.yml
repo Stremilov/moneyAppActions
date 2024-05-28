@@ -25,16 +25,15 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest .
           docker push ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - uses: appleboy/ssh-action@v0.1.10
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: 188.225.58.99
+          username: root
+          password: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
 
-      - name: Deploy to production server
-        run: |
-          ssh your_user@your_server << 'EOF'
-            docker pull ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
-            docker stop my-spring-boot-app || true
-            docker rm my-spring-boot-app || true
-            docker run -d --name my-spring-boot-app -p 80:8080 ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
-          EOF
+        script: |
+          docker pull ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
+          docker stop my-spring-boot-app || true
+          docker rm my-spring-boot-app || true
+          docker run -d --name my-spring-boot-app -p 80:8080 ${{ secrets.DOCKER_USER }}/my-spring-boot-app:latest
