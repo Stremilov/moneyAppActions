@@ -8,9 +8,9 @@ FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
 
 # Определяем аргумент для JAR файла
-ARG JAR_FILE=build/libs/*.jar
+#ARG JAR_FILE=build/libs/*.jar
 
-#ARG JAR_FILE
+ARG JAR_FILE
 
 # Копируем JAR файл в образ
 COPY ${JAR_FILE} app.jar
