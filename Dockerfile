@@ -1,11 +1,16 @@
-FROM anapsix/alpine-java
+# Первый этап - сборка
+FROM gradle:7.3.3-jdk11 AS build
 
 WORKDIR /app
 
-MAINTAINER myNAME
+COPY . .
 
-CMD ["./gradlew", "build"]
+RUN ./gradlew build
 
-COPY hackaton-it-one-backend-0.0.1-SNAPSHOT.jar app.jar
+FROM openjdk:11-jre-slim
 
-CMD ["java", "-jar", "app.jar"]
+WORKDIR /app
+
+COPY --from=build /app/build/libs/hackaton-it-one-backend-0.0.1-SNAPSHOT.jar /app/app.jar
+
+CMD ["java", "-jar", "/app/app.jar"]
