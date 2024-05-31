@@ -1,4 +1,3 @@
-# Первый этап - сборка
 FROM gradle:7.3.3-jdk11 AS build
 
 WORKDIR /app
