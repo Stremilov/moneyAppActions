@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew build
+RUN ["./gradlew", "build"]
 
 FROM openjdk:11-jre-slim
 
